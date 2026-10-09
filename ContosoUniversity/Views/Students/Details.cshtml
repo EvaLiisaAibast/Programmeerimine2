@@ -1,0 +1,101 @@
+@model ContosoUniversity.Models.Student
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="page-banner" style="background-image: url('/images/reading-room.jpg')">
+    <div class="banner-text">
+        <p class="banner-kicker">Student registry &nbsp;·&nbsp; enrolment records</p>
+        <h1>Student details</h1>
+    </div>
+    <div class="banner-actions">
+        <span class="count-chip">@Model.LastName, @Model.FirstMidName</span>
+    </div>
+</div>
+
+@* FOOL LOVERS 囲み枠-21 — 8-piece lace frame wrapper (frame21-a skin)
+   Reference: https://foollovers.com/mat/t-frame21.html *@
+<div class="box21 box21-a">
+    <div class="box-top">
+        <div class="u01"></div>
+    </div>
+    <div class="box-center">
+        <div class="box-inner">
+    <div class="form-rail">
+        <div class="rail-card">
+            <h5>A note from the registrar</h5>
+            <p>Käes oleva tudengi andmeid on uuendatud viimase akreditaatide jooksul.</p>
+            <ul>
+                <li>Tudengi ID on @Model.ID</li>
+                <li>EnrollmentDate @Model.EnrollmentDate.ToShortDateString()</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4 class="text-uppercase ls-2">Personal information</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <dl>
+                        <dt class="text-uppercase ls-2 text-muted">First name</dt>
+                        <dd>@Model.FirstMidName</dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl>
+                        <dt class="text-uppercase ls-2 text-muted">Last name</dt>
+                        <dd>@Model.LastName</dd>
+                    </dl>
+                </div>
+            </div>
+            <dl class="row">
+                <dt class="col-sm-3">Enrollment date</dt>
+                <dd class="col-sm-9">@Model.EnrollmentDate.ToShortDateString()</dd>
+            </dl>
+        </div>
+        <div class="col-md-6">
+            <h4 class="text-uppercase ls-2">Enrollments</h4>
+            @if (Model.Enrollments.Any())
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Course title</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var enrollment in Model.Enrollments)
+                        {
+                            <tr>
+                                <td>@enrollment.Course.Title</td>
+                                <td>@Html.DisplayFor(model => enrollment.Grade)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="empty-state">This student is not enrolled in any courses.</p>
+            }
+        </div>
+    </div>
+
+    <div class="form-bar">
+        <a asp-action="Index" class="btn btn-line">← Back to list</a>
+        <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-gold">Edit student</a>
+        <a asp-action="Delete" asp-route-id="@Model.ID" class="btn btn-danger">Delete</a>
+    </div>
+        </div>
+    </div>
+    <div class="box-bottom">
+        <div class="s01"></div>
+    </div>
+</div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

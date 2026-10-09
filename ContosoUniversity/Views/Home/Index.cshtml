@@ -1,0 +1,66 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<section class="hero">
+    <div class="hero-media" style="background-image: url('/images/hero-graduation.jpg')"></div>
+    <div class="hero-scrim"></div>
+    <div class="hero-content">
+        <p class="hero-kicker">Established MCMLXIV &nbsp;·&nbsp; Faculty of Computing</p>
+        <h1>Contoso <span>University</span></h1>
+        <p class="hero-lead">Student admissions, courses, instructors and departments —
+            the Contoso University sample site, built with ASP.NET Core MVC and Entity Framework Core.</p>
+        <div class="hero-cta">
+            <a class="btn btn-gold" asp-controller="Students" asp-action="Index">Meet the students</a>
+            <a class="btn btn-ghost" href="https://learn.microsoft.com/aspnet/core/data/ef-mvc/intro">Read the tutorial</a>
+        </div>
+        <ul class="hero-stats">
+            <li><b>@ViewBag.StudentCount</b><span>Students</span></li>
+            <li><b>@ViewBag.CourseCount</b><span>Courses</span></li>
+            <li><b>@ViewBag.InstructorCount</b><span>Instructors</span></li>
+            <li><b>@ViewBag.DepartmentCount</b><span>Departments</span></li>
+        </ul>
+    </div>
+</section>
+
+<section class="feature-grid">
+    <article class="feature-card">
+        <div class="feature-img"><img src="/images/reading-room.jpg" alt="Students studying in a library reading room, 1919" /></div>
+        <div class="feature-body">
+            <span class="feature-num">01</span>
+            <h2>Students</h2>
+            <p>Names, enrollment dates, grades — sortable, searchable and paginated fifty to a page.</p>
+            <a class="btn btn-line" asp-controller="Students" asp-action="Index">Open registry</a>
+        </div>
+    </article>
+
+    <article class="feature-card">
+        <div class="feature-img"><img src="/images/lecture.jpg" alt="A mathematics lecture in progress" /></div>
+        <div class="feature-body">
+            <span class="feature-num">02</span>
+            <h2>Faculty</h2>
+            <p>Instructors, their office hours, the courses they teach and the classrooms they never leave.</p>
+            <a class="btn btn-line" asp-controller="Instructors" asp-action="Index">Meet the staff</a>
+        </div>
+    </article>
+
+    <article class="feature-card">
+        <div class="feature-img"><img src="/images/books.jpg" alt="A stack of old books" /></div>
+        <div class="feature-body">
+            <span class="feature-num">03</span>
+            <h2>Courses</h2>
+            <p>Forty courses across four departments, with credits you can multiply by raw SQL if you like.</p>
+            <a class="btn btn-line" asp-controller="Courses" asp-action="Index">Browse catalogue</a>
+        </div>
+    </article>
+</section>
+
+<section class="duo">
+    <article class="duo-card">
+        <p class="hand-note">psst — you can build this yourself</p>
+        <h2>Build it from scratch</h2>
+        <p>You can build the application by following the steps in a series of ten tutorials —
+           from an empty project to concurrency conflicts and table-per-hierarchy inheritance.</p>
+        <a class="btn btn-gold" href="https://learn.microsoft.com/aspnet/core/data/ef-mvc/intro">See the tutorial &raquo;</a>
+    </article>
+</section>

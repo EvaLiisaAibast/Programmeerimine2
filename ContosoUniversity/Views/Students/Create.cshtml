@@ -1,0 +1,55 @@
+@model ContosoUniversity.Models.Student
+
+@{
+    ViewData["Title"] = "Create student";
+}
+
+<header class="page-banner" style="--banner: url('/images/reading-room.jpg')">
+    <div class="banner-text">
+        <span class="banner-kicker">Registry · new record</span>
+        <h1>Create a student</h1>
+    </div>
+</header>
+
+<div class="row">
+    <aside class="col-md-4 form-rail">
+        <div class="rail-card">
+            <h5>Good to know</h5>
+            <p>the database picks the ID — you only fill in the person</p>
+            <ul>
+                <li>Both names are required, max 50 characters</li>
+                <li>Dates post as <code>yyyy-MM-dd</code></li>
+                <li>The enrollment date feeds the About-page statistics</li>
+            </ul>
+        </div>
+    </aside>
+
+    <div class="col-md-8">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="LastName" class="form-label"></label>
+                <input asp-for="LastName" class="form-control" placeholder="e.g. Alexander" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="FirstMidName" class="form-label"></label>
+                <input asp-for="FirstMidName" class="form-control" placeholder="e.g. Carson" />
+                <span asp-validation-for="FirstMidName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="EnrollmentDate" class="form-label"></label>
+                <input asp-for="EnrollmentDate" class="form-control" />
+                <span asp-validation-for="EnrollmentDate" class="text-danger"></span>
+            </div>
+            <div class="form-bar">
+                <a asp-action="Index">&larr; Back to list</a>
+                <input type="submit" value="Create student" class="btn btn-gold" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Contoso University</title>
+    <script type="importmap"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Cinzel:wght@600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&family=Inter:wght@400;500;600;700;800&family=Pinyon+Script&family=Pirata+One&family=Tangerine:wght@700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ContosoUniversity.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="seal" aria-hidden="true">CU</span>
+                    <span class="brand-text">Contoso <em>University</em></span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse">
+                    @{ string vc = ViewContext.RouteData.Values["controller"]?.ToString() ?? ""; string va = ViewContext.RouteData.Values["action"]?.ToString() ?? ""; Func<string, string, bool> OnPage = (c, a) => string.Equals(vc, c, StringComparison.OrdinalIgnoreCase) && string.Equals(va, a, StringComparison.OrdinalIgnoreCase); Func<string, bool> OnCtrl = c => string.Equals(vc, c, StringComparison.OrdinalIgnoreCase); }
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link@(OnPage("Home", "Index") ? " active" : "")" aria-current="@(OnPage("Home", "Index") ? "page" : null)" asp-area="" asp-controller="Home" asp-action="Index"><span class="nav-num">01</span> Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link@(OnPage("Home", "About") ? " active" : "")" aria-current="@(OnPage("Home", "About") ? "page" : null)" asp-area="" asp-controller="Home" asp-action="About"><span class="nav-num">02</span> About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link@(OnCtrl("Students") ? " active" : "")" aria-current="@(OnCtrl("Students") ? "page" : null)" asp-area="" asp-controller="Students" asp-action="Index"><span class="nav-num">03</span> Students</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link@(OnCtrl("Courses") ? " active" : "")" aria-current="@(OnCtrl("Courses") ? "page" : null)" asp-area="" asp-controller="Courses" asp-action="Index"><span class="nav-num">04</span> Courses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link@(OnCtrl("Instructors") ? " active" : "")" aria-current="@(OnCtrl("Instructors") ? "page" : null)" asp-area="" asp-controller="Instructors" asp-action="Index"><span class="nav-num">05</span> Instructors</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link@(OnCtrl("Departments") ? " active" : "")" aria-current="@(OnCtrl("Departments") ? "page" : null)" asp-area="" asp-controller="Departments" asp-action="Index"><span class="nav-num">06</span> Departments</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main id="main" role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="foot-grid">
+                <div class="foot-brand">
+                    <span class="seal seal-sm" aria-hidden="true">CU</span>
+                    <p class="foot-title">Contoso University</p>
+                    <p class="foot-blurb">A fictional university from the Microsoft tutorial series
+                       <em>ASP.NET Core MVC with EF Core</em> — built here, tutorial by tutorial.</p>
+                </div>
+                <div class="foot-col">
+                    <h5>Explore</h5>
+                    <a asp-controller="Students" asp-action="Index">Students</a>
+                    <a asp-controller="Courses" asp-action="Index">Courses</a>
+                    <a asp-controller="Instructors" asp-action="Index">Instructors</a>
+                    <a asp-controller="Departments" asp-action="Index">Departments</a>
+                </div>
+                <div class="foot-col">
+                    <h5>The tutorial</h5>
+                    <a href="https://learn.microsoft.com/aspnet/core/data/ef-mvc/intro">Series on Microsoft Learn</a>
+                    <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+                <div class="foot-col">
+                    <h5>Image credits</h5>
+                    <a href="https://commons.wikimedia.org/wiki/File:University_of_Peace_caps_164_students_at_colourful_Mogadishu_ceremony_(52538839973).jpg">Graduation — Wikimedia Commons</a>
+                    <a href="https://commons.wikimedia.org/wiki/File:Alumni_Library_reading_room_1919_(3191360365).jpg">Reading room, 1919</a>
+                    <a href="https://commons.wikimedia.org/wiki/File:Mathematics_lecture_at_the_Helsinki_University_of_Technology.jpg">Lecture photo</a>
+                    <a href="https://commons.wikimedia.org/wiki/File:Couple_walking_into_St_Johns_College_Oxford.jpg">St John's College, Oxford</a>
+                    <a href="https://commons.wikimedia.org/wiki/File:Deckenfresko_der_Karlskirche_Bild_2.jpg">Ceiling fresco — Karlskirche</a>
+                    <a href="https://commons.wikimedia.org/wiki/File:Silk_bobbin_lace_edging_MET_DP16573_09.68.393.jpg">Lace edging — Metropolitan Museum of Art</a>
+                    <a href="https://foollovers.com/mat/t-frame21.html">Lace frame 囲み枠-21 — FOOL LOVERS</a>
+                </div>
+            </div>
+            <p class="foot-bottom">&copy; 2026 - Contoso University - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+               <span class="foot-sep">·</span> styled with a custom "Baroque" theme</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

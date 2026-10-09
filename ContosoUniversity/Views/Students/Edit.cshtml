@@ -1,0 +1,59 @@
+@model ContosoUniversity.Models.Student
+
+@{
+    ViewData["Title"] = "Edit student";
+}
+
+<header class="page-banner" style="--banner: url('/images/reading-room.jpg')">
+    <div class="banner-text">
+        <span class="banner-kicker">Registry · edit record</span>
+        <h1>Edit student</h1>
+    </div>
+    <div class="banner-actions">
+        <span class="count-chip">ID @Model.ID</span>
+    </div>
+</header>
+
+<div class="row">
+    <aside class="col-md-4 form-rail">
+        <div class="rail-card">
+            <h5>Anti-overposting</h5>
+            <p>the action re-reads the row, then binds three whitelisted fields only</p>
+            <ul>
+                <li><code>TryUpdateModelAsync</code> updates Last name, First name, Enrollment date</li>
+                <li>Anything else posted is ignored</li>
+                <li>Changes save only when the model is valid</li>
+            </ul>
+        </div>
+    </aside>
+
+    <div class="col-md-8">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="mb-3">
+                <label asp-for="LastName" class="form-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="FirstMidName" class="form-label"></label>
+                <input asp-for="FirstMidName" class="form-control" />
+                <span asp-validation-for="FirstMidName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="EnrollmentDate" class="form-label"></label>
+                <input asp-for="EnrollmentDate" class="form-control" />
+                <span asp-validation-for="EnrollmentDate" class="text-danger"></span>
+            </div>
+            <div class="form-bar">
+                <a asp-action="Index">&larr; Discard changes</a>
+                <input type="submit" value="Save changes" class="btn btn-gold" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

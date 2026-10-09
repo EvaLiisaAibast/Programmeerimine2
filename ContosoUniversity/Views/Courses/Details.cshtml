@@ -1,0 +1,55 @@
+﻿@model ContosoUniversity.Models.Course
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div class="box21 box21-a">
+    <div class="box-top">
+        <div class="u01"></div>
+    </div>
+    <div class="box-center">
+        <div class="box-inner">
+
+<div>
+    <h4>Course</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CourseID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CourseID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Credits)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Credits)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Department)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Department.DepartmentID)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.CourseID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+        </div>
+    </div>
+    <div class="box-bottom">
+        <div class="s01"></div>
+    </div>
+</div>

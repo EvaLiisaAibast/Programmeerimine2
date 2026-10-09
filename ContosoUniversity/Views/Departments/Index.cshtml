@@ -1,0 +1,60 @@
+﻿@model IEnumerable<ContosoUniversity.Models.Department>
+
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<header class="page-banner" style="--banner: url('/images/campus.jpg')">
+    <div class="banner-text">
+        <span class="banner-kicker">Faculties · budgets & administrators</span>
+        <h1>Departments</h1>
+    </div>
+    <div class="banner-actions">
+        <span class="count-chip">@Model.Count() departments</span>
+        <a asp-action="Create" class="btn btn-gold">+ New department</a>
+    </div>
+</header>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Budget)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <!-- Tutorial 8: the scaffolder added a RowVersion column here;
+                 the tracking property must not be displayed to users. -->
+            <th>
+                @Html.DisplayNameFor(model => model.Administrator)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Budget)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Administrator.FullName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DepartmentID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DepartmentID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DepartmentID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

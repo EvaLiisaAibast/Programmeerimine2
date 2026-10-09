@@ -1,0 +1,114 @@
+@model MvcMovie.Models.MovieGenreViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    ViewData["BodyClass"] = "grudge";
+    var total = Model.Movies!.Count;
+    var genreCount = Model.Movies.Select(m => m.Genre).Distinct().Count();
+    var totalValue = Model.Movies.Sum(m => m.Price);
+    var nowPlaying = Model.Movies.First();
+}
+
+<header class="board-head">
+    <div class="board-head-main">
+        <h1 class="board-title">Movies</h1>
+        <p class="board-sub">dvd archive // every film is a room you enter alone.</p>
+    </div>
+
+    <div class="board-head-side">
+        <p class="board-counter">
+            <b class="digits">@total</b>
+            <span>DVDs<br />on the board</span>
+        </p>
+    </div>
+</header>
+
+<div class="board-tools">
+    <a asp-action="Create" class="btn-board">+ Add a movie</a>
+
+    <form asp-controller="Movies" asp-action="Index" method="get" class="filter-board">
+        <label for="SearchString">title</label>
+        <input type="text" asp-for="SearchString" id="SearchString" />
+
+        <label for="MovieGenre">genre</label>
+        <select asp-for="MovieGenre" asp-items="Model.Genres" id="MovieGenre">
+            <option value="">All</option>
+        </select>
+
+        <button type="submit" class="btn-board btn-board--filter">Filter</button>
+    </form>
+</div>
+
+<div class="filmstrip" aria-hidden="true"></div>
+
+<div class="cork-layout">
+    <aside class="note-rail">
+        <section class="note-paper">
+            <span class="tape" aria-hidden="true"></span>
+            <header class="note-head">now playing</header>
+            <p class="np-title">@Html.DisplayFor(model => nowPlaying.Title)</p>
+            <div class="np-progress" aria-hidden="true"><i></i></div>
+            <p class="np-stars" aria-hidden="true">★★★★★</p>
+            <p class="np-meta"><span class="digits" id="np-clock">00:@((total % 60).ToString("D2"))</span> / PAL / 16:9</p>
+        </section>
+
+        <section class="note-paper">
+            <span class="tape tape-b" aria-hidden="true"></span>
+            <header class="note-head">your collection</header>
+            <ul class="collection-stats">
+                <li>titles <b class="digits">@total</b></li>
+                <li>genres <b class="digits">@genreCount</b></li>
+                <li>value <b class="digits">£@totalValue.ToString("0.00")</b></li>
+            </ul>
+            <p class="stamp" aria-hidden="true">TEAM MVM</p>
+        </section>
+    </aside>
+
+    <div class="polaroid-wall">
+        @for (var i = 0; i < Model.Movies!.Count; i++)
+        {
+            var item = Model.Movies[i];
+            var poster = MvcMovie.Models.MoviePosters.UrlFor(item.Title);
+            var note = i % 9 == 0 ? new[] { "sick!", "classic", "skip it", "so good", "rad", "must watch", "bleh", "banger", "rented 3x", "100%" }[(i / 9) % 10] : null;
+            <article class="polaroid">
+                <span class="pin" aria-hidden="true"></span>
+                @if (i % 4 != 0)
+                {
+                    <span class="tape" aria-hidden="true"></span>
+                }
+                <div class="polaroid-photo">
+                    @if (poster != null)
+                    {
+                        <img src="@poster" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+                    }
+                    else
+                    {
+                        <span class="polaroid-fallback" aria-hidden="true">@(string.IsNullOrEmpty(item.Title) ? "?" : item.Title[0].ToString())</span>
+                    }
+                </div>
+                @if (note != null)
+                {
+                    <span class="note" aria-hidden="true">@note</span>
+                }
+                <div class="polaroid-caption">
+                    <h2 class="polaroid-title">@Html.DisplayFor(modelItem => item.Title)</h2>
+                    <p class="polaroid-meta">@Html.DisplayFor(modelItem => item.ReleaseDate)</p>
+                    <p class="polaroid-tags">
+                        <span class="genre-pill genre-@(item.Genre?.ToLowerInvariant().Replace(' ', '-'))">@Html.DisplayFor(modelItem => item.Genre)</span>
+                        <span class="rating-badge rating-@(item.Rating?.ToLowerInvariant())">@Html.DisplayFor(modelItem => item.Rating)</span>
+                    </p>
+                    <div class="polaroid-foot">
+                        <span class="polaroid-price">@Html.DisplayFor(modelItem => item.Price)</span>
+                        <span class="polaroid-actions">
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </span>
+                    </div>
+                </div>
+            </article>
+        }
+    </div>
+</div>
+
+<p class="board-foot">BEST VIEWED IN 1024×768 · the catalog grows, even when it shouldn't.</p>

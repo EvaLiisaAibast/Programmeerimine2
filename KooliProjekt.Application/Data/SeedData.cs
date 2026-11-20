@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using KooliProjekt.Application.Authentication;
 
 namespace KooliProjekt.Application.Data
 {
@@ -115,6 +116,8 @@ namespace KooliProjekt.Application.Data
 
         public static void Generate(ApplicationDbContext context)
         {
+            SeedUsers(context);
+
             if (context.Customers.Any())
             {
                 return;
@@ -175,6 +178,23 @@ namespace KooliProjekt.Application.Data
             SeedTicketMessages(context);
             SeedNotifications(context);
             SeedAuditLogs(context);
+        }
+
+        private static void SeedUsers(ApplicationDbContext context)
+        {
+            if (context.Users.Any())
+            {
+                return;
+            }
+
+            var users = new List<User>
+            {
+                new User { UserName = "admin", PasswordHash = PasswordHelper.Hash("Admin123!"), IsAdmin = true },
+                new User { UserName = "kasutaja", PasswordHash = PasswordHelper.Hash("Kasutaja123!"), IsAdmin = false }
+            };
+
+            context.Users.AddRange(users);
+            context.SaveChanges();
         }
 
         private static void SeedCustomerGroups(ApplicationDbContext context)

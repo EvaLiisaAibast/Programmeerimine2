@@ -176,6 +176,40 @@ namespace KooliProjekt.WebAPI.Controllers
         }
 
         /// <summary>
+        /// Shows the wishlist of the signed in user.
+        /// </summary>
+        [HttpGet("wishlist")]
+        public async Task<IActionResult> GetMyWishlist()
+        {
+            var result = await _mediator.Send(new GetMyWishlistQuery());
+
+            return Result(result);
+        }
+
+        /// <summary>
+        /// Adds a product to the wishlist.
+        /// </summary>
+        [HttpPost("wishlist/items")]
+        public async Task<IActionResult> AddProductToWishlist([FromBody] AddWishlistItemCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            return Result(result);
+        }
+
+        /// <summary>
+        /// Removes a line from the wishlist.
+        /// </summary>
+        [HttpDelete("wishlist/items/{wishlistItemId}")]
+        public async Task<IActionResult> RemoveWishlistItem(int wishlistItemId)
+        {
+            var command = new RemoveWishlistItemCommand { WishlistItemId = wishlistItemId };
+            var result = await _mediator.Send(command);
+
+            return Result(result);
+        }
+
+        /// <summary>
         /// Turns the shopping cart into an order.
         /// </summary>
         [HttpPost("orders")]

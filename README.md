@@ -72,6 +72,9 @@ Everything the end user does lives in the `Public` feature (`KooliProjekt.Applic
 | `POST` | `/api/public/cart/items` | Add a product to the cart |
 | `PUT` | `/api/public/cart/items/{cartItemId}?quantity=2` | Change the quantity of one cart line |
 | `DELETE` | `/api/public/cart/items/{cartItemId}` | Remove a cart line |
+| `GET` | `/api/public/wishlist` | Own wishlist with products, prices and stock |
+| `POST` | `/api/public/wishlist/items` | Add a product to the wishlist |
+| `DELETE` | `/api/public/wishlist/items/{wishlistItemId}` | Remove a wishlist line |
 | `POST` | `/api/public/orders` | Checkout: turn the cart into an order |
 | `GET` | `/api/public/orders` | Own order history |
 | `GET` | `/api/public/orders/{id}` | One own order with lines, payments and shipment |
@@ -88,6 +91,7 @@ Rules the handlers enforce:
 
 - the customer is resolved from the token on every request, so a user can neither read nor change another customer's cart, orders, payments, notifications or returns — such requests answer `"Tellimust ei leitud."` or `"Ostukorvi rida ei leitud."`
 - adding a product that is already in the cart is refused, with a hint to change the quantity instead
+- the wishlist works the same way: a product that is already on it is refused, and a wishlist line of another customer answers `"Soovinimekirja rida ei leitud."`; the first wishlist is created automatically when the customer adds the first product
 - quantities are checked against the stock levels, and the checkout re-checks that every product is still active and in stock
 - checkout needs at least one cart line and an address (the default address is used when `addressId` is `0`)
 - a blocked customer (`Status != "Aktiivne"`) can browse the catalog but cannot add to the cart or place an order
@@ -231,7 +235,7 @@ The complete model description is available in `EPoodModel.docx`.
 
 - 56 olemit ja 57 kontrollerit ühtse CRUD-otspunktidega
 - **`AdminApiBaseController`** — kõik olemikontrollerid pärinevad sellest ja nõuavad `Admin` rolli (tavakasutajale vastus **403**)
-- **Public feature ja `PublicController`** (`/api/public/...`) — kõik lõppkasutaja tegevused: registreerimine, profiil ja aadressid, ostukorv, tellimuse esitamine, tellimuste ajalugu, maksed, teavitused, arvustused ja tagastused
+- **Public feature ja `PublicController`** (`/api/public/...`) — kõik lõppkasutaja tegevused: registreerimine, profiil ja aadressid, ostukorv, soovinimekiri, tellimuse esitamine, tellimuste ajalugu, maksed, teavitused, arvustused ja tagastused
 - **JWT autentimine** (`POST /api/authentication/authenticate`) — token kehtib 60 minutit
 - **Autoriseerimine**: `ApiControllerBase` kannab `[Authorize]`-i, seega ilma tokenita vastab iga otspunkt **401**-ga; ainus avalik otspunkt on sisselogimine
 - **Rollipõhine juurdepääs**: administraator saab `Admin` rolli claimi (`IsAdmin` veeru järgi), tavakasutaja mitte

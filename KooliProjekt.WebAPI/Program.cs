@@ -6,6 +6,7 @@ using FluentValidation;
 using KooliProjekt.Application.Authentication.Jwt;
 using KooliProjekt.Application.Behaviors;
 using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Features.Public;
 using KooliProjekt.Application.Infrastructure;
 using KooliProjekt.Application.Infrastructure.Files;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -86,6 +87,7 @@ namespace KooliProjekt.WebAPI
             builder.Services.AddSingleton<JwtTokenBuilder>();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<IUserProvider, WebUserProvider>();
+            builder.Services.AddScoped<CurrentCustomer>();
             builder.Services.AddAuthorization();
 
             var filesRoot = builder.Configuration["FilesRoot"];

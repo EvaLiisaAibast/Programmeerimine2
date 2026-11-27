@@ -17,5 +17,7 @@ namespace KooliProjekt.Application.Data
         public string PasswordHash { get; set; }
 
         public bool IsAdmin { get; set; }
+
+        public int? CustomerId { get; set; }
     }
 }

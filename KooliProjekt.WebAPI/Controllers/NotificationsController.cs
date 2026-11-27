@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KooliProjekt.WebAPI.Controllers
 {
-    public class NotificationsController : ApiControllerBase
+    public class NotificationsController : AdminApiBaseController
     {
         private readonly IMediator _mediator;
 

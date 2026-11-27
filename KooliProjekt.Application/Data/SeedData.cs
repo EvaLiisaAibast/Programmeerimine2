@@ -120,6 +120,7 @@ namespace KooliProjekt.Application.Data
 
             if (context.Customers.Any())
             {
+                SeedUserCustomerLinks(context);
                 return;
             }
 
@@ -178,6 +179,8 @@ namespace KooliProjekt.Application.Data
             SeedTicketMessages(context);
             SeedNotifications(context);
             SeedAuditLogs(context);
+
+            SeedUserCustomerLinks(context);
         }
 
         private static void SeedUsers(ApplicationDbContext context)
@@ -195,6 +198,47 @@ namespace KooliProjekt.Application.Data
 
             context.Users.AddRange(users);
             context.SaveChanges();
+        }
+
+        // Login accounts and shop customers are separate tables, so every login account
+        // needs a customer profile before it can use the public API.
+        private static void SeedUserCustomerLinks(ApplicationDbContext context)
+        {
+            var customers = context.Customers
+                .Where(x => x.Status == "Aktiivne")
+                .OrderBy(x => x.Id)
+                .Take(2)
+                .ToList();
+
+            if (customers.Count < 2)
+            {
+                return;
+            }
+
+            var users = context.Users
+                .OrderBy(x => x.Id)
+                .ToList();
+
+            var changed = false;
+            var admin = users.FirstOrDefault(x => x.UserName == "admin");
+            var regular = users.FirstOrDefault(x => x.UserName == "kasutaja");
+
+            if (admin != null && admin.CustomerId == null)
+            {
+                admin.CustomerId = customers[0].Id;
+                changed = true;
+            }
+
+            if (regular != null && regular.CustomerId == null)
+            {
+                regular.CustomerId = customers[1].Id;
+                changed = true;
+            }
+
+            if (changed)
+            {
+                context.SaveChanges();
+            }
         }
 
         private static void SeedCustomerGroups(ApplicationDbContext context)
@@ -1336,7 +1380,7 @@ namespace KooliProjekt.Application.Data
                     Title = titles[i % titles.Length],
                     Message = messages[i % messages.Length],
                     CreatedAt = createdAt,
-                    ReadAt = createdAt.AddHours(2)
+                    ReadAt = i % 3 == 2 ? DateTime.MinValue : createdAt.AddHours(2)
                 });
             }
 

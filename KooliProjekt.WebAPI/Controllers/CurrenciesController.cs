@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KooliProjekt.WebAPI.Controllers
 {
-    public class CurrenciesController : ApiControllerBase
+    public class CurrenciesController : AdminApiBaseController
     {
         private readonly IMediator _mediator;
 
